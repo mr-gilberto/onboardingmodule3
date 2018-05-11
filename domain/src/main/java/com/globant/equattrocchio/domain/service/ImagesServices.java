@@ -1,8 +1,12 @@
 package com.globant.equattrocchio.domain.service;
 
-import io.reactivex.Observer;
+import com.globant.equattrocchio.domain.data.Image;
+
+import java.util.List;
+
+import io.reactivex.observers.DisposableObserver;
 
 public interface ImagesServices {
 
-    void getLatestImages(Observer<String> observer);
+    void getLatestImages(DisposableObserver<List<Image>> observer);
 }

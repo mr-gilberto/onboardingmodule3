@@ -1,35 +1,67 @@
 package com.globant.equattrocchio.cleanarchitecture.mvp.view;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.globant.equattrocchio.cleanarchitecture.R;
-import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
-import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
+import com.globant.equattrocchio.cleanarchitecture.mvp.view.base.MainListAdapter;
+import com.globant.equattrocchio.data.response.ImageResponse;
+import com.globant.equattrocchio.domain.data.Image;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ImagesView extends ActivityView {
 
-    @BindView(R.id.tv_incoming_json) TextView tvlabel;
+    LinearLayoutManager layoutManager;
+    @BindView(R.id.recycler_main)
+    RecyclerView recyclerView;
+    MainListAdapter adapter;
 
     public ImagesView(AppCompatActivity activity) {
         super(activity);
         ButterKnife.bind(this, activity);
+
+        init();
     }
 
-    public void showText(String text) {
-        tvlabel.setText(text);
+    private void init() {
+        initAdapter();
     }
 
-    @OnClick(R.id.btn_call_service)
-    public void callServiceBtnPressed() {
-        RxBus.post(new CallServiceButtonObserver.CallServiceButtonPressed());
+
+    public void initAdapter() {
+        final Context context = getContext();
+        if (context != null) {
+            layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            layoutManager.setStackFromEnd(true);
+            recyclerView.setLayoutManager(layoutManager);
+            adapter = new MainListAdapter(getContext() );
+            adapter.setItemClickListener(getOnClickListener());
+            recyclerView.setAdapter(adapter);
+        }
     }
 
-    public void showError() {
-        tvlabel.setText(R.string.connection_error);
+    public View.OnClickListener getOnClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    // TODO IMPLEMENT CLICK EVENT
+            }
+        };
     }
+
+
+    public void setItemsAdapter(List<Image> items){
+        adapter.setItems(items);
+    }
+
+
+
+
 }

@@ -1,20 +1,11 @@
-package com.globant.equattrocchio.data.response;
+package com.globant.equattrocchio.domain.data;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class Image {
-    @SerializedName("id")
-    @Expose
+
     private Integer id;
-    @SerializedName("url")
-    @Expose
     private String url;
-    @SerializedName("large_url")
-    @Expose
     private String largeUrl;
-    @SerializedName("source_id")
-    @Expose
     private Object sourceId;
 
     public Integer getId() {

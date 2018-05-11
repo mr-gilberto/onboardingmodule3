@@ -4,12 +4,15 @@ import android.app.Activity;
 
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.ImagesView;
-import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
 import com.globant.equattrocchio.data.ImagesServicesImpl;
+import com.globant.equattrocchio.data.response.ImageResponse;
+import com.globant.equattrocchio.data.response.ResultResponse;
 import com.globant.equattrocchio.domain.GetLatestImagesUseCase;
+import com.globant.equattrocchio.domain.data.Image;
+
+import java.util.List;
 
 import io.reactivex.annotations.NonNull;
-import io.reactivex.observers.DefaultObserver;
 import io.reactivex.observers.DisposableObserver;
 
 public class ImagesPresenter {
@@ -20,36 +23,38 @@ public class ImagesPresenter {
     public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase) {
         this.view = view;
         this.getLatestImagesUseCase = getLatestImagesUseCase;
+        init();
     }
 
-    public void onCountButtonPressed() {
-        view.showText(new String(""));//todo: aca va el string que me devuelva el execute del usecase
+    private void init() {
+        callServiceImages();
     }
 
-    private void onCallServiceButtonPressed() {
 
-        getLatestImagesUseCase.execute(new DisposableObserver<String>() {
+    private void callServiceImages() {
+
+        getLatestImagesUseCase.execute(new DisposableObserver<List<Image>>() {
 
             @Override
-            public void onNext(@NonNull String result) {
+            public void onNext(@NonNull List<Image> images) {
+
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
-                view.showError();
+
             }
 
             @Override
             public void onComplete() {
-                new ImagesServicesImpl().getLatestImages(new DisposableObserver<String>() {
+                new ImagesServicesImpl().getLatestImages(new DisposableObserver<List<Image>>() {
                     @Override
-                    public void onNext(String s) {
-                        view.showText(s);
+                    public void onNext(List<Image> images) {
+                        view.setItemsAdapter(images);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        view.showError();
                     }
 
                     @Override
@@ -59,22 +64,11 @@ public class ImagesPresenter {
             }
         }, null);
 
-        //todo acá tengo que llamar a la domain layer para que llame a la data layer y haga el llamdo al servicio
-    }
-
-    private void loadFromPreferences() {
-        // view.showText("EL TEXTO QUE ME TRAGIA DE LAS PREFERENCES");// todo: traerme el texto de las preferences
     }
 
     public void register() {
         Activity activity = view.getActivity();
         if (activity != null) {
-            RxBus.subscribe(activity, new CallServiceButtonObserver() {
-                @Override
-                public void onEvent(CallServiceButtonPressed event) {
-                    onCallServiceButtonPressed();
-                }
-            });
         }
     }
 

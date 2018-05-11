@@ -10,6 +10,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ImagesServicesImpl implements ImagesServices {
 
@@ -19,28 +20,24 @@ public class ImagesServicesImpl implements ImagesServices {
     public void getLatestImages(final Observer<String> observer) {
 
         Retrofit retrofit = new Retrofit.Builder().
-                baseUrl(URL).
-                addConverterFactory(GsonConverterFactory.create())
+                baseUrl(URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
         SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
+        Call<String> call = api.getImagesJSON();
 
-        Call<Result> call = api.getImages();
-
-        call.enqueue(new Callback<Result>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 observer.onNext(response.body().toString());
                 observer.onComplete();
             }
 
             @Override
-            public void onFailure(Call<Result> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 observer.onError(t);
             }
         });
     }
-
-
-
 }

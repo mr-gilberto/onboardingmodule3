@@ -9,4 +9,8 @@ public interface SplashbaseApi {
 
     @GET("api/v1/images/latest")
     Call<Result> getImages();
+
+    @GET("api/v1/images/latest")
+    Call<String> getImagesJSON();
+
 }

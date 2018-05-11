@@ -30,18 +30,27 @@ public class ImagesPresenter {
 
         getLatestImagesUseCase.execute(new DisposableObserver<String>() {
             @Override
-            public void onNext(@NonNull String result) {
-                loadFromPreferences();
-            }
-
+            public void onNext(@NonNull String result) {}
             @Override
             public void onError(@NonNull Throwable e) {
                 view.showError();
             }
-
             @Override
             public void onComplete() {
-                new ImagesServicesImpl().getLatestImages(null);
+                new ImagesServicesImpl().getLatestImages(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        view.showText(s);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                                view.showError();
+                    }
+
+                    @Override
+                    public void onComplete() { }
+                });
             }
         }, null);
 

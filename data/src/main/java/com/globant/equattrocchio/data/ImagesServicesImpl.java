@@ -1,6 +1,5 @@
 package com.globant.equattrocchio.data;
 
-import com.globant.equattrocchio.data.response.Result;
 import com.globant.equattrocchio.data.service.api.SplashbaseApi;
 import com.globant.equattrocchio.domain.service.ImagesServices;
 
@@ -9,7 +8,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ImagesServicesImpl implements ImagesServices {
@@ -25,7 +23,7 @@ public class ImagesServicesImpl implements ImagesServices {
                 .build();
 
         SplashbaseApi api  = retrofit.create(SplashbaseApi.class);
-        Call<String> call = api.getImagesJSON();
+        Call<String> call = api.getImages();
 
         call.enqueue(new Callback<String>() {
             @Override

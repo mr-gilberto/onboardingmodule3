@@ -29,12 +29,13 @@ public class ImagesPresenter {
     private void onCallServiceButtonPressed() {
 
         getLatestImagesUseCase.execute(new DisposableObserver<String>() {
+
             @Override
             public void onNext(@NonNull String result) {}
+
             @Override
-            public void onError(@NonNull Throwable e) {
-                view.showError();
-            }
+            public void onError(@NonNull Throwable e) {view.showError();}
+
             @Override
             public void onComplete() {
                 new ImagesServicesImpl().getLatestImages(new DisposableObserver<String>() {
@@ -45,11 +46,11 @@ public class ImagesPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                                view.showError();
+                        view.showError();
                     }
 
                     @Override
-                    public void onComplete() { }
+                    public void onComplete() {}
                 });
             }
         }, null);

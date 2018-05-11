@@ -17,77 +17,57 @@ public class ImagesPresenter {
     private ImagesView view;
     private GetLatestImagesUseCase getLatestImagesUseCase;
 
-
     public ImagesPresenter(ImagesView view, GetLatestImagesUseCase getLatestImagesUseCase) {
         this.view = view;
         this.getLatestImagesUseCase = getLatestImagesUseCase;
     }
 
     public void onCountButtonPressed() {
-
         view.showText(new String(""));//todo: aca va el string que me devuelva el execute del usecase
-
-
     }
 
     private void onCallServiceButtonPressed() {
 
-        getLatestImagesUseCase.execute(new DisposableObserver<Boolean>() {
+        getLatestImagesUseCase.execute(new DisposableObserver<String>() {
             @Override
-            public void onNext(@NonNull Boolean aBoolean) {
+            public void onNext(@NonNull String result) {
                 loadFromPreferences();
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
-               view.showError();
+                view.showError();
             }
 
             @Override
             public void onComplete() {
                 new ImagesServicesImpl().getLatestImages(null);
             }
-        },null);
-
-
+        }, null);
 
         //todo acá tengo que llamar a la domain layer para que llame a la data layer y haga el llamdo al servicio
     }
 
-    private void loadFromPreferences(){
-       // view.showText("EL TEXTO QUE ME TRAGIA DE LAS PREFERENCES");// todo: traerme el texto de las preferences
+    private void loadFromPreferences() {
+        // view.showText("EL TEXTO QUE ME TRAGIA DE LAS PREFERENCES");// todo: traerme el texto de las preferences
     }
-
-
-
-
-
-
-
-
 
     public void register() {
         Activity activity = view.getActivity();
-
-        if (activity==null){
-            return;
+        if (activity != null) {
+            RxBus.subscribe(activity, new CallServiceButtonObserver() {
+                @Override
+                public void onEvent(CallServiceButtonPressed event) {
+                    onCallServiceButtonPressed();
+                }
+            });
         }
-
-        RxBus.subscribe(activity, new CallServiceButtonObserver() {
-            @Override
-            public void onEvent(CallServiceButtonPressed event) {
-                onCallServiceButtonPressed();
-            }
-        });
-
     }
 
     public void unregister() {
         Activity activity = view.getActivity();
-
-        if (activity==null){
-            return;
+        if (activity != null) {
+            RxBus.clear(activity);
         }
-        RxBus.clear(activity);
     }
 }

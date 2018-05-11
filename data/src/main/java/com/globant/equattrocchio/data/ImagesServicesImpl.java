@@ -16,7 +16,8 @@ public class ImagesServicesImpl implements ImagesServices {
     private static final String URL= "http://splashbase.co/";
 
     @Override
-    public void getLatestImages(Observer<Boolean> observer) {
+    public void getLatestImages(final Observer<String> observer) {
+
         Retrofit retrofit = new Retrofit.Builder().
                 baseUrl(URL).
                 addConverterFactory(GsonConverterFactory.create())
@@ -29,15 +30,17 @@ public class ImagesServicesImpl implements ImagesServices {
         call.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
-                //todo: show the response.body() on the ui
+                observer.onNext(response.body().toString());
+                observer.onComplete();
             }
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-                //todo: update the UI with a connection error message
+                observer.onError(t);
             }
         });
-
-
     }
+
+
+
 }

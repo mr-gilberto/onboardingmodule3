@@ -31,10 +31,13 @@ public class ImagesPresenter {
         getLatestImagesUseCase.execute(new DisposableObserver<String>() {
 
             @Override
-            public void onNext(@NonNull String result) {}
+            public void onNext(@NonNull String result) {
+            }
 
             @Override
-            public void onError(@NonNull Throwable e) {view.showError();}
+            public void onError(@NonNull Throwable e) {
+                view.showError();
+            }
 
             @Override
             public void onComplete() {
@@ -50,7 +53,8 @@ public class ImagesPresenter {
                     }
 
                     @Override
-                    public void onComplete() {}
+                    public void onComplete() {
+                    }
                 });
             }
         }, null);

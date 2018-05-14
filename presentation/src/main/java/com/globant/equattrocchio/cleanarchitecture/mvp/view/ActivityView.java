@@ -1,6 +1,5 @@
 package com.globant.equattrocchio.cleanarchitecture.mvp.view;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -25,8 +24,8 @@ public class ActivityView {
     }
 
     @Nullable
-    public FragmentManager getFragmentManager() {
+    public android.support.v4.app.FragmentManager getFragmentManager() {
         AppCompatActivity activity = getActivity();
-        return (activity != null) ? activity.getFragmentManager() : null;
+        return (activity != null) ? activity.getSupportFragmentManager() : null;
     }
 }

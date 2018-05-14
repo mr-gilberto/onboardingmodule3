@@ -1,6 +1,7 @@
 package com.globant.equattrocchio.cleanarchitecture.mvp.presenter;
 
 import android.app.Activity;
+import android.widget.Toast;
 
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.ImagesView;
@@ -55,6 +56,8 @@ public class ImagesPresenter {
 
                     @Override
                     public void onError(Throwable e) {
+
+
                     }
 
                     @Override
@@ -63,8 +66,9 @@ public class ImagesPresenter {
                 });
             }
         }, null);
-
     }
+
+
 
     public void register() {
         Activity activity = view.getActivity();

@@ -10,21 +10,23 @@ import android.view.View;
 import com.globant.equattrocchio.cleanarchitecture.R;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.base.DialogFragmentImage;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.base.MainListAdapter;
+import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
+import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
 import com.globant.equattrocchio.domain.data.Image;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ImagesView extends ActivityView {
 
     private static final String FRAGMENT_TAG = "DialogFragmentImage";
 
-
     LinearLayoutManager layoutManager;
-    @BindView(R.id.recycler_main)
-    RecyclerView recyclerView;
+    @BindView(R.id.recycler_main) RecyclerView recyclerView;
+    @BindView(R.id.btn_refresh) View btn_refresh;
     MainListAdapter adapter;
 
     public ImagesView(AppCompatActivity activity) {
@@ -59,6 +61,12 @@ public class ImagesView extends ActivityView {
             }
         };
     }
+
+    @OnClick(R.id.btn_refresh)
+    public void callRefreshBtnPressed() {
+        RxBus.post(new CallServiceButtonObserver.CallServiceButtonPressed());
+    }
+
 
     public void showDialogImage(String description, String url, String id) {
         FragmentManager fm = getFragmentManager();

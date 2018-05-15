@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.globant.equattrocchio.cleanarchitecture.util.bus.RxBus;
 import com.globant.equattrocchio.cleanarchitecture.mvp.view.ImagesView;
+import com.globant.equattrocchio.cleanarchitecture.util.bus.observers.CallServiceButtonObserver;
 import com.globant.equattrocchio.data.ImagesServicesImpl;
 import com.globant.equattrocchio.data.response.ImageResponse;
 import com.globant.equattrocchio.data.response.ResultResponse;
@@ -38,12 +39,10 @@ public class ImagesPresenter {
 
             @Override
             public void onNext(@NonNull List<Image> images) {
-
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
-
             }
 
             @Override
@@ -52,14 +51,10 @@ public class ImagesPresenter {
                     @Override
                     public void onNext(List<Image> images) {
                         view.setItemsAdapter(images);
-
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
-
                     }
 
                     @Override
@@ -73,6 +68,13 @@ public class ImagesPresenter {
     public void register() {
         Activity activity = view.getActivity();
         if (activity != null) {
+
+            RxBus.subscribe(activity, new CallServiceButtonObserver() {
+                @Override
+                public void onEvent(CallServiceButtonPressed event) {
+                    callServiceImages();
+                }
+            });
         }
     }
 

@@ -11,6 +11,7 @@ public class Mapper {
     public static Image imageToDomainImage(ImageResponse image) {
         Image imageDomain = new Image();
         imageDomain.setUrl(image.getUrl());
+        imageDomain.setId(image.getId());
         return imageDomain;
     }
 

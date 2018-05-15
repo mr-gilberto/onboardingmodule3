@@ -11,5 +11,6 @@ public class DialogFragmentImagePresenter {
 
     public void init() {
         view.init();
+        view.makeRequestGetDescription();
     }
 }

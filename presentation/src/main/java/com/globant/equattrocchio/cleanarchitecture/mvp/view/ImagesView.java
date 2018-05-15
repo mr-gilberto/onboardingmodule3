@@ -43,7 +43,7 @@ public class ImagesView extends ActivityView {
             layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             layoutManager.setStackFromEnd(true);
             recyclerView.setLayoutManager(layoutManager);
-            adapter = new MainListAdapter(getContext() );
+            adapter = new MainListAdapter(getContext());
             adapter.setItemClickListener(getOnClickListener());
             recyclerView.setAdapter(adapter);
         }
@@ -53,21 +53,20 @@ public class ImagesView extends ActivityView {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                int position = (int)v.getTag();
+                int position = (int) v.getTag();
                 Image image = adapter.getItemAtPosition(position);
-                showDialogImage(image.getUrl(), image.getUrl(), image.getUrl());
+                showDialogImage(image.getUrl(), image.getUrl(), image.getId().toString());
             }
         };
     }
 
-    public void showDialogImage(String title, String description, String url){
+    public void showDialogImage(String description, String url, String id) {
         FragmentManager fm = getFragmentManager();
-        DialogFragmentImage dialogFragment = DialogFragmentImage.newInstance(title, description, url);
+        DialogFragmentImage dialogFragment = DialogFragmentImage.newInstance(description, url, id);
         dialogFragment.show(fm, "");
     }
 
-    public void setItemsAdapter(List<Image> items){
+    public void setItemsAdapter(List<Image> items) {
         adapter.setItems(items);
     }
 }

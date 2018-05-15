@@ -20,12 +20,13 @@ public class DialogFragmentImage extends DialogFragment {
         super();
     }
 
-    public static DialogFragmentImage newInstance(String title, String description, String url) {
+    public static DialogFragmentImage newInstance( String description, String url, String id) {
         DialogFragmentImage dialogFragment = new DialogFragmentImage();
         Bundle fragmentBundle = new Bundle();
         fragmentBundle.putString(DialogFragmentImageView.KEY_DIALOG_IMAGE_DESCRIPTION, description);
-        fragmentBundle.putString(DialogFragmentImageView.KEY_DIALOG_TITLE, description);
         fragmentBundle.putString(DialogFragmentImageView.KEY_DIALOG_IMAGE_URL, url);
+        fragmentBundle.putString(DialogFragmentImageView.KEY_DIALOG_ID, id);
+
         dialogFragment.setArguments(fragmentBundle);
         return dialogFragment;
     }

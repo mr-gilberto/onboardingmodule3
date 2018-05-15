@@ -52,6 +52,8 @@ public class ImagesPresenter {
                     @Override
                     public void onNext(List<Image> images) {
                         view.setItemsAdapter(images);
+
+
                     }
 
                     @Override
@@ -67,8 +69,6 @@ public class ImagesPresenter {
             }
         }, null);
     }
-
-
 
     public void register() {
         Activity activity = view.getActivity();

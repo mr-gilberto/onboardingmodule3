@@ -5,7 +5,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 public abstract class UseCase<T, Params> {
-
     private final CompositeDisposable disposables;
 
     UseCase() {

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.PublishSubject;
+import io.realm.annotations.RealmClass;
 
 public class RxBus {
     private static Map<Activity, CompositeDisposable> disposableMap = new HashMap<>();

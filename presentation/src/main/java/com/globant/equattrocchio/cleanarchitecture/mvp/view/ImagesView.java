@@ -67,7 +67,6 @@ public class ImagesView extends ActivityView {
         RxBus.post(new CallServiceButtonObserver.CallServiceButtonPressed());
     }
 
-
     public void showDialogImage(String description, String url, String id) {
         FragmentManager fm = getFragmentManager();
         DialogFragmentImage dialogFragment = DialogFragmentImage.newInstance(description, url, id);

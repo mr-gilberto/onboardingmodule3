@@ -1,5 +1,6 @@
 package com.globant.equattrocchio.data;
 
+import com.globant.equattrocchio.data.Realm.ImageRealm;
 import com.globant.equattrocchio.data.mapper.Mapper;
 import com.globant.equattrocchio.data.response.ImageResponse;
 import com.globant.equattrocchio.data.response.ResultResponse;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import io.reactivex.observers.DisposableObserver;
+import io.realm.Realm;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -23,7 +25,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ImagesServicesImpl implements ImagesServices {
-
     private static final String URL = "http://splashbase.co/";
 
     Retrofit retrofit;
@@ -34,7 +35,7 @@ public class ImagesServicesImpl implements ImagesServices {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-            httpClient.addInterceptor(logging);  // <-- this is the important line!
+            httpClient.addInterceptor(logging);
 
             retrofit = new Retrofit.Builder().
                     baseUrl(URL)
@@ -66,8 +67,6 @@ public class ImagesServicesImpl implements ImagesServices {
         });
     }
 
-
-
     @Override
     public void getImageById(final DisposableObserver<Image> observer, String id) {
         Retrofit retrofit = getDefaultConfig();
@@ -77,6 +76,7 @@ public class ImagesServicesImpl implements ImagesServices {
         call.enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+
                 observer.onNext(Mapper.imageToDomainImage(response.body()));
                 observer.onComplete();
             }

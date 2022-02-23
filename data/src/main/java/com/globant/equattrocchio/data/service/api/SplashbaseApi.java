@@ -8,5 +8,6 @@ import retrofit2.http.GET;
 public interface SplashbaseApi {
 
     @GET("api/v1/images/latest")
-    Call<Result> getImages();
+    Call<String> getImages();
+
 }
